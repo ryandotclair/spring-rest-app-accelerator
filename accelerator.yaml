@@ -68,19 +68,7 @@ accelerator:
           text: MySQL
       defaultValue: "postgres"
       required: true
-  imports:
-  - name: spring-boot-postgresql
-    expose:
-    - name: databaseName
-      dependsOn:
-        name: databaseType
-        value: postgres
-  - name: spring-boot-mysql
-    expose:
-    - name: databaseName
-      dependsOn:
-        name: databaseType
-        value: mysql
+
   - name: spring-boot-database
     expose:
     - name: databaseMigrationTool

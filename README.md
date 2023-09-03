@@ -4,7 +4,7 @@ This is a scaffolded Spring Boot REST API project, deployable to Azure Spring Ap
 
 ## Create the infrastructure
 
-Run this from this folder.
+Run these commands from this folder.
 
 ```bash
 #!/bin/sh
