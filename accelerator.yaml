@@ -1,0 +1,112 @@
+accelerator:
+  displayName: Spring REST API & Database
+  description: A Spring Boot Restful API, with database persistence, and Azure passwordless authentication (best practice)
+  tags:
+  - java
+  - spring
+  - api
+  - postgres
+
+  options:
+    - name: artifactId
+      inputType: text
+      defaultValue: "todo"
+      label: Module artifact name
+      required: true
+    - name: groupId
+      inputType: text
+      defaultValue: "com.example"
+      label: Module group name
+      required: true
+    - name: packageName
+      inputType: text
+      defaultValue: "com.example.todo"
+      label: Module root package
+      required: true
+    - name: buildTool
+      label: Build Tool
+      inputType: select
+      required: true
+      defaultValue: maven
+      choices:
+        - value: maven
+          text: Maven (https://maven.apache.org/)
+        - value: gradle
+          text: Gradle (https://gradle.org/)
+    - name: exposeOpenAPIEndpoint
+      label: Expose OpenAPI endpoint?
+      dataType: boolean
+      defaultValue: false
+    - name: apiSystem
+      label: System API Belongs To
+      inputType: text
+      required: true
+      defaultValue: "profile-management"
+      dependsOn:
+        name: exposeOpenAPIEndpoint
+    - name: apiOwner
+      label: Owner of API
+      inputType: text
+      required: true
+      defaultValue: "customer-relations-department"
+      dependsOn:
+        name: exposeOpenAPIEndpoint
+    - name: apiDescription
+      label: API Description
+      inputType: text
+      required: true
+      defaultValue: "Manage customer profiles"
+      dependsOn:
+        name: exposeOpenAPIEndpoint
+    - name: databaseType
+      inputType: select
+      label: Database type to use
+      choices:
+        - value: "postgres"
+          text: PostgreSQL
+        - value: "mysql"
+          text: MySQL
+      defaultValue: "postgres"
+      required: true
+  imports:
+  - name: spring-boot-postgresql
+    expose:
+    - name: databaseName
+      dependsOn:
+        name: databaseType
+        value: postgres
+  - name: spring-boot-mysql
+    expose:
+    - name: databaseName
+      dependsOn:
+        name: databaseType
+        value: mysql
+  - name: spring-boot-database
+    expose:
+    - name: databaseMigrationTool
+    - name: databaseIntegrationTestType
+  - name: build-wrapper-maven
+  - name: build-wrapper-gradle
+
+engine:
+  let:
+    - name: packageDirectory
+      expression: '#packageName.replace(".", "/")'
+    - name: workloadResourceName
+      expression: '#artifactId.toLowerCase()'
+    - name: databaseResourceName
+      expression: '#databaseName.toLowerCase()'
+  chain:
+    # Maven is selected
+    - condition: "#buildTool == 'maven'"
+      exclude: [ "settings.gradle.kts", "build.gradle.kts"]
+      merge:
+        - include: [ "**" ]
+          exclude: [ "pom.xml", "README.md" ]
+        - include: [ "pom.xml" ]
+          chain:
+            - type: ReplaceText
+              substitutions:
+                - text: "<groupId>com.vmware.asae.accelerators</groupId>"
+                  with: "'<groupId>' + #groupId + '</groupId>'"
+    - type: Provenance
