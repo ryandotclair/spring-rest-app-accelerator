@@ -6,7 +6,7 @@ accelerator:
   - spring
   - api
   - database
-  - passwordless
+  - v1
 
   options:
     - name: artifactId
@@ -71,13 +71,13 @@ accelerator:
       required: true
 
 engine:
-  let:
-    - name: packageDirectory
-      expression: '#packageName.replace(".", "/")'
-    - name: workloadResourceName
-      expression: '#artifactId.toLowerCase()'
-    - name: databaseResourceName
-      expression: '#databaseName.toLowerCase()'
+  # let:
+  #   - name: packageDirectory
+  #     expression: '#packageName.replace(".", "/")'
+  #   - name: workloadResourceName
+  #     expression: '#artifactId.toLowerCase()'
+  #   - name: databaseResourceName
+  #     expression: '#databaseName.toLowerCase()'
   chain:
     # Maven is selected
     - condition: "#buildTool == 'maven'"
