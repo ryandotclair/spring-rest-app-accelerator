@@ -90,4 +90,3 @@ engine:
               substitutions:
                 - text: "<groupId>com.vmware.asae.accelerators</groupId>"
                   with: "'<groupId>' + #groupId + '</groupId>'"
-    - type: Provenance
