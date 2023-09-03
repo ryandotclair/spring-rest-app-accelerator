@@ -69,13 +69,6 @@ accelerator:
       defaultValue: "postgres"
       required: true
 
-  - name: spring-boot-database
-    expose:
-    - name: databaseMigrationTool
-    - name: databaseIntegrationTestType
-  - name: build-wrapper-maven
-  - name: build-wrapper-gradle
-
 engine:
   let:
     - name: packageDirectory
