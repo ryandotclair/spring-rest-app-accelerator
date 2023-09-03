@@ -5,7 +5,8 @@ accelerator:
   - java
   - spring
   - api
-  - postgres
+  - database
+  - passwordless
 
   options:
     - name: artifactId
