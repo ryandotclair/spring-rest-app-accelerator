@@ -6,7 +6,6 @@ accelerator:
   - spring
   - api
   - database
-  - v2
 
   options:
     - name: artifactId
